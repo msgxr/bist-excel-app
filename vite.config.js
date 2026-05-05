@@ -1,9 +1,24 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/bist-excel-app/",   // repo adınızı birebir yazın
-})
+  base: '/bist-excel-app/',
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          xlsx: ['xlsx', 'file-saver'],
+          pdf: ['jspdf', 'jspdf-autotable'],
+        },
+      },
+    },
+  },
+});
